@@ -42,7 +42,8 @@ export default class Main extends Component {
       newEntry: '',
       newEntryPhotos: null,
       friendName: '',
-      location: ''
+      location: '',
+      stats: {}
     };
 
     this.imagePickerOptions = imagePicker.options;
@@ -221,14 +222,36 @@ export default class Main extends Component {
         }
       })
       .then( resp => resp.json()
-        .then( json => {
-          //handle JSON response from server
+        .then( (json) => {
+          //handle JSON response from server  //using dummy data below
+          this.setState(
+            {
+              entriesLast30Days: 17,
+              entriesLast7Days: 7,
+              entriesLast365Days: 12,
+              entryStreakSelf: 12,
+              entryStreakFriendsBiggest: 17,
+              entryStreakFriendsBiggestName: "Kevin",
+              entryStreakFriendsSmallest: 2,
+              entryStreakFriendsSmallestName: "Vincent"
+            });
           console.log('handling json response from server in getStats');
         })
       )
       .catch( (error) => {
         //handle error here
         console.log('handling error in getStats');
+        this.setState(
+          {
+            entriesLast30Days: 17,
+            entriesLast7Days: 7,
+            entriesLast365Days: 12,
+            entryStreakSelf: 12,
+            entryStreakFriendsBiggest: 17,
+            entryStreakFriendsBiggestName: "Kevin",
+            entryStreakFriendsSmallest: 2,
+            entryStreakFriendsSmallestName: "Vincent"
+          });
       });
     });
   }
@@ -247,8 +270,17 @@ export default class Main extends Component {
     if (this.state.page === "SettingsTab") return <SettingsTab
                                                     signOut={ this.props.signOut }/>;
     if (this.state.page === "StatsTab") return <StatsTab
-                                                    navigator={navigator}
-                                                    getStats={ this.getStats.bind(this) }/>;
+                                          navigator={navigator}
+                                          getStats={ this.getStats.bind(this) }
+                                          entriesLast30Days={ this.state.entriesLast30Days }
+                                          entriesLast7Days={ this.state.entriesLast7Days }
+                                          entriesLast365Days={ this.state.entriesLast365Days }
+                                          entryStreakSelf={ this.state.entryStreakSelf }
+                                          entryStreakFriendsBiggest={ this.state.entryStreakFriendsBiggest }
+                                          entryStreakFriendsSmallest={ this.state.entryStreakFriendsSmallest }
+                                          entryStreakFriendsBiggestName={ this.state.entryStreakFriendsBiggestName }
+                                          entryStreakFriendsSmallestName={ this.state.entryStreakFriendsSmallestName }
+                                          />;
   }
 
   // This logic applies routing according the title of the current route. It will be activated whenever the 
