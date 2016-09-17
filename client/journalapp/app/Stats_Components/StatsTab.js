@@ -31,7 +31,7 @@ export default class StatsTab extends Component {
   }
 
   render() {
-    let msg7day, msg30day, msg365day, msgStreakSelf, msgStreakFriends;
+    let msg7day;
     let last7dayPercent = this.props.entriesLast7Days / 7;
 
     if (last7dayPercent === 0) {
