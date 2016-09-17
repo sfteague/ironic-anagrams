@@ -224,17 +224,7 @@ export default class Main extends Component {
       .then( resp => resp.json()
         .then( (json) => {
           //handle JSON response from server  //using dummy data below
-          // this.setState(
-          //   {
-          //     entriesLast30Days: 17,
-          //     entriesLast7Days: 4,
-          //     entriesLast365Days: 12,
-          //     entryStreakSelf: 12,
-          //     entryStreakFriendsBiggest: 17,
-          //     entryStreakFriendsBiggestName: "Kevin",
-          //     entryStreakFriendsSmallest: 2,
-          //     entryStreakFriendsSmallestName: "Vincent"
-          //   });
+
           console.log('handling json response from server in getStats');
         })
       )
