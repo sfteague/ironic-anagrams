@@ -29,7 +29,6 @@ import styles from './styles/MainStyles';
 
 var ImagePicker = require('react-native-image-picker');
 
-
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +42,6 @@ export default class Main extends Component {
       newEntryPhotos: null,
       friendName: '',
       location: '',
-      stats: {}
     };
 
     this.imagePickerOptions = imagePicker.options;
@@ -212,7 +210,7 @@ export default class Main extends Component {
   }
 
   getStats() {
-    AsyncStorage.getItem('ENTERKEYHERE', (err, token) => {
+    AsyncStorage.getItem('@MySuperStore:token', (err, token) => {
       fetch('http://104.236.158.41:3000/api/stats', 
       {
         method: 'GET',
@@ -221,27 +219,29 @@ export default class Main extends Component {
           'x-access-token': token
         }
       })
-      .then( resp => resp.json()
-        .then( (json) => {
-          //handle JSON response from server  //using dummy data below
-
-          console.log('handling json response from server in getStats');
-        })
-      )
+      .then( resp => {
+        console.log(resp);
+        var statsResponse = JSON.parse(resp._bodyText);
+        this.setState({
+          entriesLast7Days: statsResponse.entriesLast7Days,
+          entryStreakSelf: statsResponse.entryStreakSelf,
+          entryStreakFriendsBiggest: statsResponse.entryStreakFriendsBiggest,
+          entryStreakFriendsBiggestName: statsResponse.entryStreakFriendsBiggestName,
+          entryStreakFriendsSmallest: statsResponse.entryStreakFriendsSmallest,
+          entryStreakFriendsSmallestName: statsResponse.entryStreakFriendsSmallestName
+        });
+      })
       .catch( (error) => {
-        //handle error here
-        console.log('handling error in getStats');
         this.setState(
           {
-            entriesLast30Days: 17,
-            entriesLast7Days: 4,
-            entriesLast365Days: 12,
+            entriesLast7Days: 8,
             entryStreakSelf: 12,
             entryStreakFriendsBiggest: 17,
             entryStreakFriendsBiggestName: "Kevin",
             entryStreakFriendsSmallest: 2,
             entryStreakFriendsSmallestName: "Vincent"
-          });
+          }
+        );
       });
     });
   }
@@ -262,9 +262,7 @@ export default class Main extends Component {
     if (this.state.page === "StatsTab") return <StatsTab
                                           navigator={navigator}
                                           getStats={ this.getStats.bind(this) }
-                                          entriesLast30Days={ this.state.entriesLast30Days }
                                           entriesLast7Days={ this.state.entriesLast7Days }
-                                          entriesLast365Days={ this.state.entriesLast365Days }
                                           entryStreakSelf={ this.state.entryStreakSelf }
                                           entryStreakFriendsBiggest={ this.state.entryStreakFriendsBiggest }
                                           entryStreakFriendsSmallest={ this.state.entryStreakFriendsSmallest }
