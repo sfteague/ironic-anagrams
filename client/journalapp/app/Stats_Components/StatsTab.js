@@ -33,11 +33,7 @@ export default class StatsTab extends Component {
   render() {
     let msg7day;
     let last7dayPercent = this.props.entriesLast7Days / 7;
-<<<<<<< 7bbb342d8bb45259d8fabbe1384a382d727d3c06
 
-=======
-    
->>>>>>> Progress on stats view, including dummy data for testing
     if (last7dayPercent === 0) {
       msg7day = "That's a big goose egg, buster!";
     } else if (last7dayPercent * 100 < 50) {
